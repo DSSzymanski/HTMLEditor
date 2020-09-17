@@ -1,6 +1,11 @@
+"""
+TODO: split into 2 main files. 1 for file handling / recreating file structure
+and one for actually altering the code
+"""
+#TODO: move to file handler file
 def getCodeFromFile(fileLocation):
     """
-    Opens HTML file and returns code as an array of strings
+    Opens HTML file and returns code as a list of strings
     :param fileLocation: path to HTML file
     """
     codeList = []
@@ -10,3 +15,5 @@ def getCodeFromFile(fileLocation):
     return codeList
 
 #print(getCodeFromFile("C:\\Users\\Daniel\\Desktop\\Code_Orange.html"))
+
+#TODO: move code below into code altering file
