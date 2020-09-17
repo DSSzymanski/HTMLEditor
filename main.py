@@ -17,3 +17,19 @@ def getCodeFromFile(fileLocation):
 #print(getCodeFromFile("C:\\Users\\Daniel\\Desktop\\Code_Orange.html"))
 
 #TODO: move code below into code altering file
+def searchAndAlterCode(code, tokens):
+    """
+    Main algorithm for altering code files. Searches code for token lines,
+    replaces tokens with code, and returns code.
+    :param code: list of strings representing code.
+    :param tokens: dictionary relating tokens to arrays of strings representing
+        lines of code.
+    """
+    tokenIds = ["{***", "***}"]
+    for pos, line in enumerate(code):
+        if all(id in line for id in tokenIds):
+            code = replace()
+    return code
+
+def replace():
+    pass
