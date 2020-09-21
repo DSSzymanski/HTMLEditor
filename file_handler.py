@@ -1,6 +1,16 @@
 """
 Code used to read/write from files.
 """
+from os.path import isdir
+from os import listdir
+
+def DFS(path, ext):
+    if isdir(path):
+        for directory in listdir(path):
+            DFS(path + "\\" + directory, ext)
+    else:
+        if path.endswith(ext):
+            print(path)
 
 def read_code_from_file(fileLocation):
     """
