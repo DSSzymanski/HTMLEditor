@@ -15,6 +15,8 @@ to code chunks to replace.
 Example:
     search_and_alter_code(html_code, token_strings)
 """
+#TODO: redo documentation
+#TODO: implement template choices
 def search_and_alter_code(code, tokens):
     """
     Main algorithm for altering code files. Searches code for token lines,
@@ -24,15 +26,22 @@ def search_and_alter_code(code, tokens):
         lines of code.
     """
     token_ids = ["{***", "***}"]
-    for pos, line in enumerate(code):
-        #checks if the line contains both starting and ending token identifiers
-        if all(id in line for id in token_ids):
-            token, indentation = _extract_token(snippet=line, token_ids=token_ids)
-            code = _replace(code=code, pos=pos, token=token, tokens=tokens,\
-                           indentation=indentation)
+    changed = True
+    while changed:
+        changed = False
+        for pos, line in enumerate(code):
+            #checks if the line contains both starting and ending token identifiers
+            if all(ids in line for ids in token_ids):
+                token, indentation, end = _extract_token(snippet=line, token_ids=token_ids)
+                if token not in tokens:
+                    continue
+                code = _replace(code=code, pos=pos, token=token, tokens=tokens,\
+                                indentation=indentation, end=end)
+                changed = True
+                break
     return code
 
-def _replace(code, pos, token, tokens, indentation):
+def _replace(code, pos, token, tokens, indentation, end):
     """
     Search if token has an associated code chunk related to it.
     Removes token line and returns the code page with code chunk instead if found.
@@ -50,7 +59,7 @@ def _replace(code, pos, token, tokens, indentation):
     #no code chunk found
     else:
         return code
-    return code[:pos] + replacement + code[pos+1:]
+    return code[:pos] + replacement + [end] + code[pos+1:]
 
 def _indent_code(code, indentation):
     """
@@ -71,4 +80,4 @@ def _extract_token(snippet, token_ids):
     token_id_len = len(token_ids[0])
     left = snippet.find(token_ids[0])
     right = snippet.find(token_ids[1])
-    return snippet[left+token_id_len:right], snippet[:left]
+    return snippet[left+token_id_len:right], snippet[:left], snippet[right+token_id_len:]
